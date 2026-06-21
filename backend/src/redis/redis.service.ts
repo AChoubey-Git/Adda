@@ -10,18 +10,27 @@ export class RedisService implements OnModuleDestroy {
   private publisher: Redis;
 
   constructor(private configService: ConfigService) {
-    const options = {
-      host: this.configService.get('REDIS_HOST', 'localhost'),
-      port: this.configService.get<number>('REDIS_PORT', 6379),
-      password: this.configService.get('REDIS_PASSWORD') || undefined,
+    const redisUrl = this.configService.get('REDIS_URL');
+
+    const options: any = {
       retryDelayOnFailover: 100,
       enableReadyCheck: false,
       maxRetriesPerRequest: null,
     };
 
-    this.client = new Redis(options);
-    this.subscriber = new Redis(options);
-    this.publisher = new Redis(options);
+    if (!redisUrl) {
+      options.host = this.configService.get('REDIS_HOST', 'localhost');
+      options.port = this.configService.get<number>('REDIS_PORT', 6379);
+      options.password = this.configService.get('REDIS_PASSWORD') || undefined;
+      // If host contains upstash, it requires TLS
+      if (options.host.includes('upstash.io')) {
+        options.tls = {};
+      }
+    }
+
+    this.client = redisUrl ? new Redis(redisUrl, options) : new Redis(options);
+    this.subscriber = redisUrl ? new Redis(redisUrl, options) : new Redis(options);
+    this.publisher = redisUrl ? new Redis(redisUrl, options) : new Redis(options);
 
     this.client.on('error', (err) => this.logger.error('Redis client error', err));
     this.subscriber.on('error', (err) => this.logger.error('Redis subscriber error', err));
