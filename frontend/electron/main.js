@@ -1,6 +1,9 @@
 const { app, BrowserWindow, Notification, ipcMain, shell } = require('electron');
 const path = require('path');
-const isDev = process.env.NODE_ENV === 'development';
+process.env.NODE_ENV === "development" ||
+  process.env.ELECTRON_DEV === "true" ||
+  Boolean(process.defaultApp) ||
+  /[\\/]electron[\\/]/.test(process.execPath);
 
 let mainWindow;
 
