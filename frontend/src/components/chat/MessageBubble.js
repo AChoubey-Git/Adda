@@ -15,7 +15,7 @@ export default function MessageBubble({ message, isOwn, showAvatar, conversation
   const [decrypting, setDecrypting] = useState(false);
 
   const { user } = useAuthStore();
-  const { isOnline, conversations } = useChatStore();
+  const { conversations } = useChatStore();
 
   const isOptimistic = !!message._optimistic && !message._resolved;
   const isFailed = !!message._failed;
@@ -59,6 +59,7 @@ export default function MessageBubble({ message, isOwn, showAvatar, conversation
     decrypt();
     return () => { cancelled = true; };
     // Include myId + otherParticipantId so effect re-runs if auth hydrates late
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message._id, message.encryptedContent, message.content, message._optimistic, myId, otherParticipantId]);
 
   if (isDeleted) {

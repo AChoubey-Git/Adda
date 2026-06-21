@@ -124,6 +124,7 @@ export default function MessageInput({ conversationId }) {
     }
 
     inputRef.current?.focus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text, previewFile, conversationId, myId, otherUserId, e2eOn, isGroup, user, addOptimistic, failOptimistic]);
 
   const handleKeyDown = (e) => {
