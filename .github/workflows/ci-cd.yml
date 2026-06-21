@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
 
 jobs:
   # ─── Backend Tests ────────────────────────────────────────────────────────
@@ -80,9 +80,9 @@ jobs:
       - name: Build (verify React compiles)
         run: npm run build
         env:
-          REACT_APP_API_URL: http://localhost:3001/api/v1
-          REACT_APP_SOCKET_URL: http://localhost:3001/chat
-          CI: false
+          REACT_APP_API_URL: https://adda-backend.up.railway.app/api/v1
+          REACT_APP_SOCKET_URL: https://adda-backend.up.railway.app/chat
+          CI: false 
 
   # ─── Electron Desktop Build ───────────────────────────────────────────────
   # Builds Windows, Mac, and Linux desktop apps that connect to the production backend

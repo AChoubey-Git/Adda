@@ -1,6 +1,6 @@
 const { app, BrowserWindow, Notification, ipcMain, shell } = require('electron');
 const path = require('path');
-process.env.NODE_ENV === "development" ||
+const isDev = process.env.NODE_ENV === "development" ||
   process.env.ELECTRON_DEV === "true" ||
   Boolean(process.defaultApp) ||
   /[\\/]electron[\\/]/.test(process.execPath);
@@ -27,7 +27,7 @@ function createWindow() {
 
   const url = isDev
     ? 'http://localhost:3000'
-    : `file://${path.join(__dirname, '../build/index.html')}`;
+    : `file://${path.join(__dirname, 'index.html')}`;
 
   mainWindow.loadURL(url);
   if (isDev) mainWindow.webContents.openDevTools({ mode: 'detach' });
