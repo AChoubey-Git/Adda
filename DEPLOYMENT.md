@@ -67,10 +67,9 @@ Save the two outputs as `JWT_SECRET` and `JWT_REFRESH_SECRET`.
 ## Step 5 — Railway (Backend)
 
 1. Go to [railway.app](https://railway.app) → **Sign in with GitHub**
-2. **New Project** → **Deploy from a Docker Image**
-3. Image URL: `ghcr.io/<your-github-username>/<your-repo-name>-backend:latest`
-   - Example: `ghcr.io/aChoubey/adda-backend:latest`
-4. Enable **"Auto-deploy on image update"** in service settings
+2. **New Project** → **Deploy from GitHub repo**
+3. Select your `adda` repository
+4. Set the **Root Directory** to `backend` in the Railway service settings
 5. Go to **Variables** tab and add:
 
 ```env
@@ -151,12 +150,11 @@ git push origin main
 Watch the pipeline in **GitHub → Actions**:
 
 ```
-backend-test  ──┐
-frontend-test ──┤─→ docker-build ─→ deploy-backend  (Railway)
-                │
-                ├──────────────────→ deploy-frontend (Vercel)
-                │
-                └──────────────────→ electron-build ─→ release-electron (GitHub Release)
+backend-test ───→ deploy-backend (Railway)
+
+frontend-test ──→ deploy-frontend (Vercel)
+              │
+              └─→ electron-build ───→ release-electron (GitHub Release)
 ```
 
 Total time: **~8–12 minutes**
