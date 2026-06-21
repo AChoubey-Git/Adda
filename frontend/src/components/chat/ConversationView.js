@@ -42,7 +42,7 @@ export default function ConversationView({ conversationId, onBack }) {
   // ─── Auto-scroll on new messages ────────────────────────────────────────
   useEffect(() => {
     if (autoScroll) scrollToBottom('smooth');
-  }, [convMessages.length]);
+  }, [convMessages.length, autoScroll]);
 
   // ─── Scroll to bottom ───────────────────────────────────────────────────
   const scrollToBottom = (behavior = 'smooth') => {
@@ -73,7 +73,7 @@ export default function ConversationView({ conversationId, onBack }) {
       }
       setIsLoadingMore(false);
     }
-  }, [isLoadingMore, hasMore, page, conversationId]);
+  }, [isLoadingMore, hasMore, page, conversationId, fetchMessages]);
 
   // Group messages: same sender within 2 min = no avatar
   const renderMessages = () => {
