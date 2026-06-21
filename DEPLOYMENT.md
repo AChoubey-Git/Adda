@@ -117,25 +117,14 @@ REACT_APP_SOCKET_URL=https://adda-backend.up.railway.app/chat
 
 ## Step 7 — GitHub Secrets
 
-Go to your repo → **Settings → Secrets and variables → Actions** → add all of these:
+Go to your repo → **Settings → Secrets and variables → Actions** → add ONLY these two secrets (needed for building the Desktop Apps):
 
 | Secret Name | Value |
 |---|---|
-| `RAILWAY_TOKEN` | From Railway project settings → Tokens |
-| `VERCEL_TOKEN` | From Vercel account settings → Tokens |
-| `VERCEL_ORG_ID` | From Vercel account settings → General |
-| `VERCEL_PROJECT_ID` | From Vercel project settings → General |
 | `REACT_APP_API_URL` | `https://your-railway-url.up.railway.app/api/v1` |
 | `REACT_APP_SOCKET_URL` | `https://your-railway-url.up.railway.app/chat` |
-| `MONGODB_URI` | Atlas connection string |
-| `REDIS_HOST` | Upstash endpoint |
-| `REDIS_PORT` | `6379` |
-| `REDIS_PASSWORD` | Upstash password |
-| `JWT_SECRET` | 64-char hex string |
-| `JWT_REFRESH_SECRET` | 64-char hex string |
-| `CLOUDINARY_CLOUD_NAME` | Cloudinary cloud name |
-| `CLOUDINARY_API_KEY` | Cloudinary API key |
-| `CLOUDINARY_API_SECRET` | Cloudinary API secret |
+
+> Note: You don't need Railway or Vercel tokens here because you connected them directly to GitHub in Steps 5 & 6!
 
 ---
 
@@ -150,12 +139,11 @@ git push origin main
 Watch the pipeline in **GitHub → Actions**:
 
 ```
-backend-test ───→ deploy-backend (Railway)
-
-frontend-test ──→ deploy-frontend (Vercel)
-              │
-              └─→ electron-build ───→ release-electron (GitHub Release)
+backend-test
+frontend-test ──→ electron-build ───→ release-electron (GitHub Release)
 ```
+
+(Note: Railway and Vercel will deploy natively on their own platforms in parallel!)
 
 Total time: **~8–12 minutes**
 

@@ -8,7 +8,7 @@ on:
     branches: [main]
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
 
 jobs:
   # ─── Backend Tests ────────────────────────────────────────────────────────
@@ -20,11 +20,9 @@ jobs:
         working-directory: backend
 
     services:
-      # Local Mongo for tests only — production uses Atlas
       mongo:
         image: mongo:7
         ports: ['27017:27017']
-      # Local Redis for tests only — production uses Upstash
       redis:
         image: redis:7-alpine
         ports: ['6379:6379']
@@ -79,78 +77,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Build with placeholder URLs — real URLs are injected by Vercel at deploy time
       - name: Build (verify React compiles)
         run: npm run build
         env:
-          REACT_APP_API_URL: http://localhost:3001/api/v1
-          REACT_APP_SOCKET_URL: http://localhost:3001/chat
-          CI: false
-
-  # ─── Deploy Backend → Railway ─────────────────────────────────────────────
-  # Railway watches this repo and auto-builds from backend/Dockerfile.
-  # This job just waits for tests to pass, then triggers Railway to deploy.
-  # Railway must have "Wait for CI" enabled in project settings.
-  deploy-backend:
-    name: Deploy Backend to Railway
-    runs-on: ubuntu-latest
-    needs: [backend-test]              # only deploy if tests pass
-    if: github.ref == 'refs/heads/main'
-    environment: production
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli@latest
-
-      # Triggers Railway to pick up the latest commit and start a new build.
-      # Railway builds from the Dockerfile inside backend/ using your repo source.
-      - name: Trigger Railway redeploy
-        run: railway up --service backend --detach
-        working-directory: backend
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-
-  # ─── Deploy Frontend → Vercel ─────────────────────────────────────────────
-  # Vercel builds the React app from frontend/ source on every main push.
-  # REACT_APP_* env vars are set in the Vercel dashboard (baked in at build time).
-  deploy-frontend:
-    name: Deploy Frontend to Vercel
-    runs-on: ubuntu-latest
-    needs: [frontend-test]             # only deploy if build passes
-    if: github.ref == 'refs/heads/main'
-    environment: production
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
-
-      # Pull project config (.vercel/project.json with orgId + projectId)
-      - name: Pull Vercel project settings
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-
-      # Build — REACT_APP_* vars are set in Vercel dashboard, not here
-      - name: Build
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
-
-      # Push the pre-built output to Vercel's CDN
-      - name: Deploy to Vercel (production)
-        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
-        working-directory: frontend
+          REACT_APP_API_URL: https://adda-backend.up.railway.app/api/v1
+          REACT_APP_SOCKET_URL: https://adda-backend.up.railway.app/chat
+          CI: false 
 
   # ─── Electron Desktop Build ───────────────────────────────────────────────
+  # Builds Windows, Mac, and Linux desktop apps that connect to the production backend
   electron-build:
     name: Build Electron (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
@@ -178,11 +113,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build React app
+      - name: Build React app for Desktop
         run: npm run build
         env:
-          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
-          REACT_APP_SOCKET_URL: ${{ secrets.REACT_APP_SOCKET_URL }}
+          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL || secrets.REACT_APP_API_URL }}
+          REACT_APP_SOCKET_URL: ${{ vars.REACT_APP_SOCKET_URL || secrets.REACT_APP_SOCKET_URL }}
           CI: false
 
       - name: Package — Linux AppImage

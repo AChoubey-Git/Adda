@@ -2,7 +2,10 @@
   "name": "adda-frontend",
   "version": "1.0.0",
   "private": true,
-  "main": "electron/main.js",
+  "description": "Adda Desktop Chat Application",
+  "homepage": "./",
+  "author": "Amitav Choubey",
+  "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -44,15 +47,35 @@
   "build": {
     "appId": "com.adda.desktop",
     "productName": "Adda",
-    "files": ["build/**/*", "electron/**/*"],
-    "directories": { "output": "dist" },
-    "win": { "target": "nsis" },
-    "mac": { "target": "dmg", "category": "public.app-category.social-networking" },
-    "linux": { "target": "AppImage" }
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.social-networking"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
   },
-  "eslintConfig": { "extends": ["react-app"] },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
   "browserslist": {
-    "production": [">0.2%", "not dead", "not op_mini all"],
-    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
