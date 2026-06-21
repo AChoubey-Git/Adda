@@ -18,7 +18,6 @@ import {
   saveMyPrivateKey,
   loadMyPrivateKey,
   saveMyPublicKey,
-  loadMyPublicKey,
   hasLocalKeyPair,
 } from './encryption';
 

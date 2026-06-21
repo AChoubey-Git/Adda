@@ -37,7 +37,7 @@ export default function ConversationView({ conversationId, onBack }) {
       if (data) setHasMore(data.hasMore);
       scrollToBottom('instant');
     });
-  }, [conversationId]);
+  }, [conversationId, clearUnread, fetchMessages]);
 
   // ─── Auto-scroll on new messages ────────────────────────────────────────
   useEffect(() => {

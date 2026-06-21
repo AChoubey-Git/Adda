@@ -5,7 +5,6 @@ import api from '../../services/api';
 import {
   hasLocalKeyPair,
   loadMyPublicKey,
-  loadMyPrivateKey,
 } from '../../services/encryption';
 import { initE2E } from '../../services/e2eManager';
 import styles from './Modal.module.css';
