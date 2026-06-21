@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import useAuthStore from './store/authStore';
 import useChatStore from './store/chatStore';
@@ -38,7 +38,7 @@ export default function App() {
       disconnectSocket();
     }
     return () => { if (!isAuthenticated) disconnectSocket(); };
-  }, [isAuthenticated, accessToken]);
+  }, [isAuthenticated, accessToken, ensureE2E, fetchConversations]);
 
   // Reconnect when tab becomes visible again
   useEffect(() => {
@@ -52,7 +52,7 @@ export default function App() {
     };
     document.addEventListener('visibilitychange', handleVisible);
     return () => document.removeEventListener('visibilitychange', handleVisible);
-  }, [isAuthenticated, accessToken]);
+  }, [isAuthenticated, accessToken, fetchConversations]);
 
   // Reconnect on network restore
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function App() {
     };
     window.addEventListener('online', handleOnline);
     return () => window.removeEventListener('online', handleOnline);
-  }, [isAuthenticated, accessToken]);
+  }, [isAuthenticated, accessToken, fetchConversations]);
 
   return (
     <>
