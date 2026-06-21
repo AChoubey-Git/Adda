@@ -1,0 +1,126 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh; /* dynamic viewport height for mobile browsers */
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.titlebar {
+  height: 38px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.appName {
+  font-size: 14px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f97316, #fbbf24);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.windowControls { display: flex; gap: 4px; }
+
+.windowControls button {
+  width: 28px; height: 22px;
+  border: none; background: transparent;
+  color: var(--text-secondary); cursor: pointer;
+  border-radius: 4px; font-size: 11px;
+  display: flex; align-items: center; justify-content: center;
+  -webkit-app-region: no-drag;
+  transition: background var(--transition);
+}
+.windowControls button:hover { background: var(--bg-hover); }
+.closeBtn:hover { background: var(--danger) !important; color: white !important; }
+
+/* ─── Desktop / Tablet layout: side-by-side ─────────────────────────────── */
+.body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebarPanel {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg-primary);
+  min-width: 0;
+}
+
+/* ─── Mobile (< 768px): one panel at a time ─────────────────────────────── */
+@media (max-width: 767px) {
+  .body {
+    overflow: hidden;
+  }
+
+  .sidebarPanel {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    width: 100%;
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 280ms ease;
+  }
+
+  .main {
+    position: absolute;
+    inset: 0;
+    transition: transform 280ms cubic-bezier(0.4, 0, 0.2, 1),
+                opacity 280ms ease;
+  }
+
+  /* Sidebar is VISIBLE (default on mobile before a chat is selected) */
+  .sidebarVisible {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Sidebar slides out to the left when a chat is open */
+  .sidebarHidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Main chat is VISIBLE when a conversation is selected */
+  .mainVisible {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Main chat hides to the right when sidebar is shown */
+  .mainHidden {
+    transform: translateX(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+/* ─── Tablet (768px – 1023px) ──────────────────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root { --sidebar-width: 260px; }
+}
+
+/* ─── Desktop (≥ 1024px) ───────────────────────────────────────────────── */
+@media (min-width: 1024px) {
+  :root { --sidebar-width: 320px; }
+}

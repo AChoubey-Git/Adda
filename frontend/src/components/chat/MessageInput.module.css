@@ -1,0 +1,123 @@
+.container {
+  position: relative;
+  padding: 12px 16px;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.dragActive { border-top-color: var(--accent); }
+
+.dragOverlay {
+  position: absolute; inset: 0;
+  background: var(--accent-light);
+  border: 2px dashed var(--accent);
+  border-radius: var(--radius-md);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; z-index: 10;
+}
+.dragOverlay p { font-size: 14px; font-weight: 600; color: var(--accent); }
+
+.filePreview {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg-tertiary); border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 8px 12px; margin-bottom: 10px;
+}
+.previewImg { width: 48px; height: 48px; object-fit: cover; border-radius: var(--radius-sm); flex-shrink: 0; }
+.fileIcon {
+  width: 48px; height: 48px; background: var(--accent-light);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent); flex-shrink: 0;
+}
+.fileInfo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.fileName { font-size: 13px; font-weight: 500; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fileSize { font-size: 11px; color: var(--text-muted); }
+.removeFile {
+  background: none; border: none; cursor: pointer;
+  color: var(--text-muted); font-size: 16px; padding: 4px;
+  border-radius: 4px; transition: color var(--transition); flex-shrink: 0;
+}
+.removeFile:hover { color: var(--danger); }
+
+.emojiPicker {
+  position: absolute; bottom: calc(100% + 8px); left: 16px;
+  z-index: 100; border-radius: var(--radius-lg);
+  overflow: hidden; box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+}
+
+.bar { display: flex; align-items: flex-end; gap: 6px; }
+
+.iconBtn {
+  padding: 8px !important; color: var(--text-muted) !important;
+  flex-shrink: 0; align-self: flex-end;
+}
+.iconBtn:hover { color: var(--accent) !important; }
+.iconActive { color: var(--accent) !important; }
+
+.textarea {
+  flex: 1; min-height: 36px; max-height: 120px;
+  padding: 8px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--text-primary);
+  font-family: var(--font); font-size: 14px; line-height: 1.45;
+  outline: none; resize: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  overflow-y: auto;
+}
+.textarea:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
+}
+.textarea::placeholder { color: var(--text-muted); }
+
+.sendBtn {
+  padding: 8px 14px !important;
+  border-radius: var(--radius-lg) !important;
+  align-self: flex-end; flex-shrink: 0;
+  transition: opacity var(--transition), transform var(--transition), box-shadow var(--transition) !important;
+}
+.sendBtn:hover:not(:disabled) {
+  box-shadow: 0 4px 14px rgba(249,115,22,0.5) !important;
+}
+.sendDisabled { opacity: 0.35; }
+
+.uploadSpinner {
+  width: 16px; height: 16px;
+  border: 2px solid rgba(255,255,255,0.35);
+  border-top-color: white; border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ─── E2E indicator ──────────────────────────────────────────────────────── */
+.e2eBadge {
+  font-size: 14px;
+  flex-shrink: 0;
+  align-self: flex-end;
+  padding-bottom: 9px;
+  opacity: 0.7;
+  transition: opacity var(--transition);
+}
+.e2eBadge:hover { opacity: 1; }
+.e2eOn  { opacity: 0.85; }
+.e2eOff { opacity: 0.4; filter: grayscale(1); }
+
+/* ─── Mobile ──────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .container { padding: 8px 10px; }
+
+  /* Emoji picker: position from left edge so it doesn't overflow */
+  .emojiPicker {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .iconBtn { padding: 6px !important; }
+  .sendBtn { padding: 8px 10px !important; }
+  .textarea { font-size: 13px; padding: 7px 10px; }
+}

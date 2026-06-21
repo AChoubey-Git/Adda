@@ -1,0 +1,33 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+*.log
+.DS_Store
+Thumbs.db
+coverage/
+.nyc_output/
+*.orig
+
+# Electron
+out/
+release/
+frontend/dist/
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Uploads
+backend/uploads/
+
+# Docker volumes (if mounted locally)
+mongo_data/
+redis_data/
+
+# Projects
+CLAUDE.md
+adda_project_review.md

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content" />
+    <meta name="theme-color" content="#f97316" />
+    <meta name="description" content="Adda — Where conversations come alive" />
+    <title>Adda • আড্ডা</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      /* Splash loader */
+      #splash {
+        position: fixed; inset: 0;
+        background: #0f1117;
+        display: flex; flex-direction: column;
+        align-items: center; justify-content: center;
+        gap: 16px; z-index: 9999;
+        transition: opacity 0.4s ease;
+      }
+      #splash.hidden { opacity: 0; pointer-events: none; }
+      #splash-logo {
+        width: 72px; height: 72px; border-radius: 20px;
+        background: linear-gradient(135deg, #f97316, #fbbf24);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 36px;
+        animation: splashPulse 1.5s ease-in-out infinite;
+      }
+      #splash-name {
+        font-family: 'Inter', sans-serif;
+        font-size: 28px; font-weight: 800;
+        background: linear-gradient(135deg, #f97316, #fbbf24);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      }
+      #splash-sub {
+        font-family: 'Inter', sans-serif;
+        font-size: 13px; color: #475569;
+      }
+      @keyframes splashPulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(249,115,22,0.4); }
+        50% { transform: scale(1.05); box-shadow: 0 0 0 16px rgba(249,115,22,0); }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="splash">
+      <div id="splash-logo">💬</div>
+      <div id="splash-name">Adda</div>
+      <div id="splash-sub">আড্ডা • Where conversations come alive</div>
+    </div>
+    <div id="root"></div>
+    <script>
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          const s = document.getElementById('splash');
+          if (s) { s.classList.add('hidden'); setTimeout(() => s.remove(), 400); }
+        }, 800);
+      });
+    </script>
+  </body>
+</html>

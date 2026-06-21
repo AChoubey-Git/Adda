@@ -1,0 +1,178 @@
+/* ─── Adda Design Tokens ──────────────────────────────────────────────────── */
+:root {
+  /* Dark mode (default) */
+  --bg-primary:        #0f1117;
+  --bg-secondary:      #161b22;
+  --bg-tertiary:       #1c2128;
+  --bg-hover:          #21262d;
+  --bg-message-self:   #ea580c;
+  --bg-message-other:  #1c2128;
+  --bg-input:          #21262d;
+
+  --text-primary:      #f1f5f9;
+  --text-secondary:    #94a3b8;
+  --text-muted:        #475569;
+
+  --accent:            #f97316;
+  --accent-hover:      #ea580c;
+  --accent-light:      rgba(249, 115, 22, 0.12);
+  --accent-gold:       #fbbf24;
+  --danger:            #ef4444;
+  --success:           #22c55e;
+  --warning:           #f59e0b;
+
+  --border:            rgba(249, 115, 22, 0.1);
+  --border-focus:      rgba(249, 115, 22, 0.5);
+
+  --radius-sm:         6px;
+  --radius-md:         10px;
+  --radius-lg:         16px;
+  --radius-xl:         24px;
+  --radius-full:       9999px;
+
+  --shadow-sm:         0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md:         0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg:         0 8px 32px rgba(0,0,0,0.6);
+
+  --font:              'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --transition:        150ms ease;
+  --transition-slow:   300ms ease;
+  --sidebar-width:     320px;
+}
+
+/* ─── Light mode ─────────────────────────────────────────────────────────── */
+[data-theme='light'] {
+  --bg-primary:        #fff7ed;
+  --bg-secondary:      #fff;
+  --bg-tertiary:       #ffedd5;
+  --bg-hover:          #fed7aa;
+  --bg-message-self:   #f97316;
+  --bg-message-other:  #ffedd5;
+  --bg-input:          #fff7ed;
+
+  --text-primary:      #1c1917;
+  --text-secondary:    #57534e;
+  --text-muted:        #a8a29e;
+
+  --border:            rgba(249, 115, 22, 0.15);
+  --border-focus:      rgba(249, 115, 22, 0.6);
+}
+
+/* ─── Reset ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  font-family: var(--font);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+}
+
+/* ─── Scrollbars ─────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--accent-light); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+/* ─── Utility ────────────────────────────────────────────────────────────── */
+.flex          { display: flex; }
+.flex-col      { flex-direction: column; }
+.items-center  { align-items: center; }
+.justify-center{ justify-content: center; }
+.justify-between{ justify-content: space-between; }
+.gap-1 { gap: 4px; } .gap-2 { gap: 8px; } .gap-3 { gap: 12px; }
+.flex-1 { flex: 1; }
+.overflow-hidden { overflow: hidden; }
+.text-ellipsis { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ─── Avatar ─────────────────────────────────────────────────────────────── */
+.avatar { border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+.avatar-placeholder {
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; flex-shrink: 0;
+  background: linear-gradient(135deg, var(--accent), var(--accent-gold));
+  color: white;
+}
+
+/* ─── Button ─────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border: none; border-radius: var(--radius-md);
+  font-family: var(--font); font-size: 14px; font-weight: 500;
+  cursor: pointer; white-space: nowrap;
+  transition: background var(--transition), transform var(--transition), opacity var(--transition);
+}
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  color: white;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.35);
+}
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--accent-hover), #c2410c);
+  box-shadow: 0 4px 14px rgba(249, 115, 22, 0.45);
+}
+.btn-ghost { background: transparent; color: var(--text-secondary); }
+.btn-ghost:hover:not(:disabled) { background: var(--bg-hover); color: var(--text-primary); }
+.btn-danger { background: var(--danger); color: white; }
+
+/* ─── Input ──────────────────────────────────────────────────────────────── */
+.input {
+  width: 100%; padding: 10px 14px;
+  background: var(--bg-input); border: 1px solid var(--border);
+  border-radius: var(--radius-md); color: var(--text-primary);
+  font-family: var(--font); font-size: 14px; outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.input:focus {
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
+}
+.input::placeholder { color: var(--text-muted); }
+
+/* ─── Titlebar drag ──────────────────────────────────────────────────────── */
+.titlebar { -webkit-app-region: drag; }
+.titlebar button { -webkit-app-region: no-drag; }
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.5; }
+}
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(249,115,22,0.3); }
+  50%       { box-shadow: 0 0 20px rgba(249,115,22,0.6); }
+}
+.fade-in { animation: fadeIn 200ms ease forwards; }
+
+/* ─── Online indicator ───────────────────────────────────────────────────── */
+.status-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--bg-secondary); flex-shrink: 0;
+}
+.status-dot.online  { background: var(--success); }
+.status-dot.offline { background: var(--text-muted); }
+.status-dot.away    { background: var(--warning); }
+.status-dot.busy    { background: var(--danger); }
+
+/* ─── Adda brand gradient text ───────────────────────────────────────────── */
+.brand-text {
+  background: linear-gradient(135deg, var(--accent), var(--accent-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

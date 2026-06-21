@@ -1,0 +1,173 @@
+.row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  max-width: 75%;
+  position: relative;
+  margin-bottom: 2px;
+}
+.rowOwn { align-self: flex-end; flex-direction: row-reverse; }
+
+.avatarCol { flex-shrink: 0; align-self: flex-end; }
+
+.bubbleWrap {
+  display: flex; flex-direction: column;
+  gap: 3px; max-width: 100%;
+}
+
+.senderName {
+  font-size: 11px; font-weight: 700;
+  color: var(--accent); padding-left: 2px;
+}
+
+.replyPreview {
+  display: flex; align-items: stretch; gap: 6px;
+  background: rgba(0,0,0,0.18); border-radius: var(--radius-sm);
+  padding: 5px 8px; max-width: 260px; overflow: hidden;
+}
+.replyBar { width: 3px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
+.replyText { font-size: 12px; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.bubble {
+  padding: 9px 13px;
+  border-radius: var(--radius-lg);
+  position: relative;
+  word-break: break-word;
+}
+
+.bubbleOwn {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 8px rgba(249,115,22,0.3);
+}
+
+.bubbleOther {
+  background: var(--bg-message-other);
+  color: var(--text-primary);
+  border-bottom-left-radius: 4px;
+  border: 1px solid var(--border);
+}
+
+.deleted {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-muted) !important;
+  font-style: italic; font-size: 13px;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+
+.mediaImg {
+  max-width: 240px; max-height: 200px;
+  border-radius: var(--radius-md); object-fit: cover;
+  cursor: pointer; display: block; margin-bottom: 4px;
+}
+
+.text { font-size: 14px; line-height: 1.5; white-space: pre-wrap; }
+
+.meta {
+  display: flex; align-items: center;
+  gap: 4px; justify-content: flex-end; margin-top: 3px;
+}
+.time { font-size: 10px; opacity: 0.65; }
+.edited { font-size: 10px; opacity: 0.55; font-style: italic; }
+.status { display: flex; align-items: center; }
+
+.reactions {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px;
+}
+.reactionsOwn { justify-content: flex-end; }
+
+.reactionChip {
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border);
+  border-radius: 99px; padding: 2px 7px;
+  font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; gap: 3px;
+  transition: background var(--transition);
+}
+.reactionChip:hover { background: var(--bg-hover); }
+.reactionOwn { border-color: var(--accent); background: var(--accent-light); }
+.reactionChip span { font-size: 11px; color: var(--text-secondary); }
+
+/* Toolbar */
+.actions {
+  display: flex; align-items: center; gap: 2px;
+  position: absolute; top: -30px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 3px; box-shadow: var(--shadow-md); z-index: 10;
+}
+.actionsOther { left: 30px; }
+.actionsOwn { right: 0; }
+
+.actionBtn {
+  background: none; border: none; cursor: pointer;
+  padding: 4px 6px; border-radius: 6px;
+  color: var(--text-secondary); font-size: 14px;
+  display: flex; align-items: center;
+  transition: background var(--transition);
+}
+.actionBtn:hover { background: var(--bg-hover); color: var(--accent); }
+
+.reactionPicker {
+  position: absolute; top: calc(100% + 6px);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md); padding: 6px;
+  display: flex; gap: 4px;
+  box-shadow: var(--shadow-md); z-index: 20;
+}
+.reactionPickerOwn { right: 0; }
+
+.reactionOption {
+  background: none; border: none; cursor: pointer;
+  font-size: 20px; padding: 4px; border-radius: 6px;
+  transition: background var(--transition), transform var(--transition);
+}
+.reactionOption:hover { background: var(--bg-hover); transform: scale(1.2); }
+
+/* ─── Optimistic / failed states ─────────────────────────────────────────── */
+.optimistic { opacity: 0.75; }
+
+.bubbleFailed {
+  background: linear-gradient(135deg, #7f1d1d, #991b1b) !important;
+  border: 1px solid #ef4444 !important;
+}
+
+.failIcon {
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.retryBtn {
+  background: none;
+  border: none;
+  color: var(--danger);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 2px 4px;
+  align-self: flex-end;
+  text-decoration: underline;
+}
+
+.retryBtn:hover { opacity: 0.8; }
+
+/* ─── E2E lock badge ─────────────────────────────────────────────────────── */
+.lockBadge {
+  font-size: 9px;
+  opacity: 0.6;
+  margin-right: 2px;
+}
+
+/* ─── Mobile ──────────────────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .row { max-width: 88%; }
+
+  .mediaImg { max-width: 100%; max-height: 160px; }
+
+  .bubble { padding: 8px 11px; }
+  .text { font-size: 13px; }
+}
