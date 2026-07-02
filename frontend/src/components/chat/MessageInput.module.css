@@ -119,5 +119,6 @@
 
   .iconBtn { padding: 6px !important; }
   .sendBtn { padding: 8px 10px !important; }
-  .textarea { font-size: 13px; padding: 7px 10px; }
+  /* font-size must be >= 16px to suppress iOS Safari auto-zoom on focus */
+  .textarea { font-size: 16px; padding: 7px 10px; }
 }

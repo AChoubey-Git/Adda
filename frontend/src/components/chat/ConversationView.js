@@ -11,7 +11,7 @@ import styles from './ConversationView.module.css';
 export default function ConversationView({ conversationId, onBack }) {
   const { messages, fetchMessages, clearUnread, typingUsers, conversations } = useChatStore();
   const { user } = useAuthStore();
-  const bottomRef  = useRef(null);
+  const bottomRef  = useRef(null); // kept for DOM anchor below typing indicator
   const messagesEl = useRef(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [hasMore, setHasMore]             = useState(true);
@@ -44,9 +44,18 @@ export default function ConversationView({ conversationId, onBack }) {
     if (autoScroll) scrollToBottom('smooth');
   }, [convMessages.length, autoScroll]);
 
-  // ─── Scroll to bottom ───────────────────────────────────────────────────
+  // ─── Scroll to bottom ───────────────────────────────────────────────────────
   const scrollToBottom = (behavior = 'smooth') => {
-    bottomRef.current?.scrollIntoView({ behavior, block: 'end' });
+    const el = messagesEl.current;
+    if (!el) return;
+    // scrollIntoView({ behavior: 'smooth' }) is not reliably supported on iOS Safari.
+    // Direct scrollTop manipulation works universally; CSS scroll-behavior handles animation.
+    if (behavior === 'instant') {
+      el.scrollTop = el.scrollHeight;
+    } else {
+      // Use requestAnimationFrame so the DOM has settled before we measure
+      requestAnimationFrame(() => { el.scrollTop = el.scrollHeight; });
+    }
   };
 
   // ─── Track if user scrolled up (disable auto-scroll) ───────────────────
@@ -173,8 +182,8 @@ export default function ConversationView({ conversationId, onBack }) {
           </div>
         )}
 
-        {/* Invisible anchor for scroll-to-bottom */}
-        <div ref={bottomRef} style={{ height: 1 }} />
+        {/* Invisible anchor — kept for potential future use */}
+        <div ref={bottomRef} style={{ height: 0 }} />
       </div>
 
       {/* Scroll-to-bottom FAB */}

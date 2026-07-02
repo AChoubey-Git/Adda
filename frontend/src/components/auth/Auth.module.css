@@ -61,9 +61,13 @@
   font-weight: 800;
   background: linear-gradient(135deg, #f97316, #fbbf24);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  /* Scope to this element only — prevents Safari propagating transparent fill to child inputs */
+  -webkit-text-fill-color: transparent;
+  color: transparent; /* non-webkit fallback */
   line-height: 1;
+  /* Ensure the rule doesn't inherit into sibling/child inputs */
+  display: inline-block;
 }
 
 .logoTagline {
