@@ -61,14 +61,30 @@
 /* ─── Reset ───────────────────────────────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-html, body, #root {
-  height: 100%;
+html {
+  /* Safari iOS: 100vh includes the address bar causing content clipping.
+     -webkit-fill-available fills only the visible area. dvh is the modern fix. */
+  height: -webkit-fill-available;
+  height: 100dvh;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: 100dvh;
   font-family: var(--font);
   background: var(--bg-primary);
   color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  /* Do NOT set overflow:hidden on body — iOS Safari clips layout + keyboard area */
+}
+
+#root {
+  height: 100%;
+  overflow: hidden; /* clip only the React root, not the body */
+  display: flex;
+  flex-direction: column;
 }
 
 /* ─── Scrollbars ─────────────────────────────────────────────────────────── */
@@ -129,12 +145,20 @@ html, body, #root {
   border-radius: var(--radius-md); color: var(--text-primary);
   font-family: var(--font); font-size: 14px; outline: none;
   transition: border-color var(--transition), box-shadow var(--transition);
+  /* Prevent Safari from propagating gradient text color into typed text */
+  -webkit-text-fill-color: var(--text-primary);
 }
 .input:focus {
   border-color: var(--border-focus);
   box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
 }
-.input::placeholder { color: var(--text-muted); }
+.input::placeholder { color: var(--text-muted); -webkit-text-fill-color: var(--text-muted); }
+
+/* ─── Mobile: prevent iOS Safari auto-zoom on input focus ─────────────────── */
+/* Safari zooms any input with font-size < 16px; this suppresses that behaviour */
+@media (max-width: 767px) {
+  .input { font-size: 16px; }
+}
 
 /* ─── Titlebar drag ──────────────────────────────────────────────────────── */
 .titlebar { -webkit-app-region: drag; }

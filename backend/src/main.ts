@@ -1,8 +1,8 @@
 import { NestFactory }     from '@nestjs/core';
 import { ValidationPipe }  from '@nestjs/common';
 import { AppModule }       from './app.module';
-import * as helmet         from 'helmet';
-import * as compression    from 'compression';
+import helmet              from 'helmet';
+import compression         from 'compression';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -12,7 +12,7 @@ async function bootstrap() {
     },
   });
 
-  app.use((helmet as any)());
+  app.use(helmet());
   app.use(compression());
 
   app.useGlobalPipes(
