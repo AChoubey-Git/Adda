@@ -39,7 +39,15 @@ const useAuthStore = create(
       register: async (name, email, password) => {
         set({ isLoading: true });
         try {
-          const { data } = await api.post('/auth/register', { name, email, password });
+          const response = await api.post('/auth/register', { name, email, password });
+          const data = response.data;
+
+          // Guard: server returned empty/no-content response (should not happen, but be safe)
+          if (!data || !data.user) {
+            const status = response.status;
+            throw new Error(`Registration failed: server returned status ${status} with no user data`);
+          }
+
           set({
             user:            data.user,
             accessToken:     data.accessToken,

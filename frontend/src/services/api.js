@@ -11,13 +11,16 @@ const api = axios.create({
 // Request: attach access token
 api.interceptors.request.use((config) => {
   // Dynamically read from store to avoid stale closure
-  const stored = localStorage.getItem('adda-auth');
-  if (stored) {
-    const { state } = JSON.parse(stored);
-    if (state?.accessToken) {
-      config.headers.Authorization = `Bearer ${state.accessToken}`;
+  // Wrapped in try/catch: Safari Private Browsing throws SecurityError on localStorage
+  try {
+    const stored = localStorage.getItem('adda-auth');
+    if (stored) {
+      const { state } = JSON.parse(stored);
+      if (state?.accessToken) {
+        config.headers.Authorization = `Bearer ${state.accessToken}`;
+      }
     }
-  }
+  } catch {}
   return config;
 });
 
@@ -51,7 +54,9 @@ api.interceptors.response.use(
       original._retry = true;
       isRefreshing = true;
 
-      const stored = localStorage.getItem('adda-auth');
+      // Wrapped in try/catch: Safari Private Browsing throws SecurityError on localStorage
+      let stored = null;
+      try { stored = localStorage.getItem('adda-auth'); } catch {}
       const refreshToken = stored ? JSON.parse(stored)?.state?.refreshToken : null;
 
       if (!refreshToken) {
