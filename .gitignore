@@ -1,8 +1,6 @@
 node_modules/
 dist/
 build/
-.env
-.env.local
 *.log
 .DS_Store
 Thumbs.db
@@ -16,7 +14,6 @@ release/
 frontend/dist/
 
 # IDE
-.vscode/settings.json
 .idea/
 *.swp
 *.swo
@@ -33,3 +30,8 @@ CLAUDE.md
 adda_project_review.md
 task.md
 ARCHITECTUR
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
+config.bat

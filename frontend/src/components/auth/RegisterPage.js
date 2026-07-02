@@ -18,7 +18,7 @@ export default function RegisterPage() {
       toast.success('Welcome to Adda! আড্ডায় স্বাগতম 🎉');
       navigate('/');
     } catch (err) {
-      toast.error(err.response?.data?.message || 'Registration failed');
+      toast.error(err.response?.data?.message || err.message || 'Registration failed');
     }
   };
 
